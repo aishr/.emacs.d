@@ -27,7 +27,6 @@
 ;;
 ;; G E N E R A L
 ;;
-
 (setq inhibit-splash-screen t
       inhibit-startup-message t
       initial-major-mode 'org-mode)
@@ -89,7 +88,8 @@
 ;; Magic git
 (use-package magit
   :config
-  (global-set-key "\C-x\g" 'magit-status))
+  (global-set-key "\C-x\g" 'magit-status)
+  (use-package evil-magit))
 
 ;;
 ;; C O M P A N Y
@@ -126,9 +126,18 @@
        `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
        `(company-tooltip-common ((t (:inherit font-lock-constant-face))))))))
 
+(use-package company-jedi
+  :config
+  (defun my/python-mode-hook ()
+    (add-to-list 'company-backends 'company-jedi))
+  (add-hook 'python-mode-hook 'my/python-mode-hook))
+
 (use-package omnisharp
   :config
-  (setq omnisharp-server-executable-path "C:\\emacs\\omnisharp\\OmniSharp.exe")
+  (setq omnisharp-server-executable-path "c:/emacs/omnisharp/OmniSharp.exe")
+  (setq-default omnisharp-host "http://localhost:3030")
+  (eval-after-load 'company
+    '(add-to-list 'company-backends 'company-omnisharp))
   (add-hook 'csharp-mode-hook 'omnisharp-mode))
 
 ;;
@@ -144,3 +153,5 @@
     (make-directory "~/.bak.emacs/auto"))
 ;; backup in one place. flat, no tree structure
 (setq auto-save-file-name-transforms '((".*" "~/.bak.emacs/auto/" t)))
+
+(use-package ox-twbs)
