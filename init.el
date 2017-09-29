@@ -109,11 +109,6 @@
   :config
   (setq jiralib-url "https://indigoca.atlassian.net"))
 
-;; org to confluence
-(add-to-list 'load-path "c:/Users/aramanathan/Documents/Uni-Stuff/")
-(use-package ox-confluence
-  :ensure nil)
-
 ;;
 ;; C O M P A N Y
 ;;
