@@ -86,7 +86,7 @@
   :pin org
   :ensure org-plus-contrib
   :config
-  (requrie 'ox-confluence))
+  (require 'ox-confluence))
 
 ;; Better looking org headers
 (use-package org-bullets
