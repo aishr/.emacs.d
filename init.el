@@ -13,7 +13,8 @@
 (require 'package)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "https://marmalade-repo.org/packages/")
-                         ("melpa" . "http://melpa.org/packages/")))
+                         ("melpa" . "http://melpa.org/packages/")
+                         ("org" . "http://orgmode.org/elpa/")))
 (setq package-enable-at-startup nil)
 (package-initialize)
 
@@ -79,6 +80,11 @@
 (use-package smex
   :demand
   :bind ("M-x" . smex))
+
+;; Use newest org with additional packages
+(use-package org
+    :pin org
+    :ensure org-plus-contrib)
 
 ;; Better looking org headers
 (use-package org-bullets
