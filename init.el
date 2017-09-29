@@ -14,6 +14,7 @@
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "https://marmalade-repo.org/packages/")
                          ("melpa" . "http://melpa.org/packages/")))
+			 ("org" . "http://orgmode.org/elpa/"))) 
 (setq package-enable-at-startup nil)
 (package-initialize)
 
@@ -67,8 +68,8 @@
   )
 
 ;;
-;;
 ;; P A C K A G E S
+;;
 
 (use-package cherry-blossom-theme)
 
@@ -80,16 +81,36 @@
   :demand
   :bind ("M-x" . smex))
 
+;; Use newest org with additional packages
+(use-package org
+  :pin org
+  :ensure org-plus-contrib)
+
 ;; Better looking org headers
 (use-package org-bullets
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+;; Displays helpful popups for key bindings
+(use-package which-key
+  :config
+  (which-key-mode))
 
 ;; Magic git
 (use-package magit
   :config
   (global-set-key "\C-x\g" 'magit-status)
   (use-package evil-magit))
+
+;; Interface for accessing Jira's REST API
+(use-package org-jira
+  :config
+  (setq jiralib-url "https://indigoca.atlassian.net"))
+
+;; org to confluence
+(add-to-list 'load-path "c:/Users/aramanathan/Documents/Uni-Stuff/")
+(use-package ox-confluence
+  :ensure nil)
 
 ;;
 ;; C O M P A N Y
@@ -98,7 +119,7 @@
   :init
   (global-company-mode)
   :config
-  (setq company-idle-delay 0) ; Delay to complete
+  (setq company-idle-delay 0.5) ; Delay to complete
   (setq company-minimum-prefix-length 1)
   (setq company-selection-wrap-around t) ; Loops around suggestions
 
@@ -135,10 +156,9 @@
 (use-package omnisharp
   :config
   (setq omnisharp-server-executable-path "c:/emacs/omnisharp/OmniSharp.exe")
-  (setq-default omnisharp-host "http://localhost:3030")
+  (add-hook 'csharp-mode-hook 'omnisharp-mode)
   (eval-after-load 'company
-    '(add-to-list 'company-backends 'company-omnisharp))
-  (add-hook 'csharp-mode-hook 'omnisharp-mode))
+    '(add-to-list 'company-backends 'company-omnisharp)))
 
 ;;
 ;; B A C K U P S
