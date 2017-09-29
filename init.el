@@ -84,7 +84,9 @@
 ;; Use newest org with additional packages
 (use-package org
   :pin org
-  :ensure org-plus-contrib)
+  :ensure org-plus-contrib
+  :config
+  (requrie 'ox-confluence))
 
 ;; Better looking org headers
 (use-package org-bullets
