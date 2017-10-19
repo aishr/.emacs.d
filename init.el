@@ -109,6 +109,11 @@
   :config
   (setq jiralib-url "https://indigoca.atlassian.net"))
 
+;; Sleek org slide exporter
+(use-package ox-reveal
+   :config
+   (use-package htmlize))
+
 ;;
 ;; C O M P A N Y
 ;;
