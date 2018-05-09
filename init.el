@@ -177,3 +177,13 @@
 (setq auto-save-file-name-transforms '((".*" "~/.bak.emacs/auto/" t)))
 
 (use-package ox-twbs)
+
+(define-key evil-ex-map "vsp "
+  '(lambda (file)
+     (interactive (list (ido-read-file-name "")))
+     (evil-window-vsplit nil file)))
+
+(define-key evil-ex-map "sp "
+  '(lambda (file)
+     (interactive (list (ido-read-file-name "")))
+     (evil-window-split nil file)))
