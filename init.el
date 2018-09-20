@@ -1,4 +1,5 @@
-;;                 _     _       _         _  _            _ 
+;
+;                 _     _       _         _  _            _ 
 ;;     /\         | |   ( )     (_)       (_)| |          | |
 ;;    /  \    ___ | |__ |/ ___   _  _ __   _ | |_     ___ | |
 ;;   / /\ \  / __|| '_ \  / __| | || '_ \ | || __|   / _ \| |
@@ -114,6 +115,13 @@
    :config
    (use-package htmlize))
 
+(use-package pdf-tools
+  :ensure nil
+  :config
+  (pdf-tools-install)
+
+  (add-hook 'pdf-view-mode-hook '(lambda () (auto-revert-mode t))))
+
 ;;
 ;; C O M P A N Y
 ;;
@@ -155,12 +163,12 @@
     (add-to-list 'company-backends 'company-jedi))
   (add-hook 'python-mode-hook 'my/python-mode-hook))
 
-(use-package omnisharp
-  :config
-  (setq omnisharp-server-executable-path "c:/emacs/omnisharp/OmniSharp.exe")
-  (add-hook 'csharp-mode-hook 'omnisharp-mode)
-  (eval-after-load 'company
-    '(add-to-list 'company-backends 'company-omnisharp)))
+;;(use-package omnisharp
+;;  :config
+;;  (setq omnisharp-server-executable-path "c:/emacs/omnisharp/OmniSharp.exe")
+;;  (add-hook 'csharp-mode-hook 'omnisharp-mode)
+;;  (eval-after-load 'company
+;;    '(add-to-list 'company-backends 'company-omnisharp)))
 
 ;;
 ;; B A C K U P S
