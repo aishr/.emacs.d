@@ -35,6 +35,7 @@
 (tool-bar-mode -1) ; No toolbar
 (scroll-bar-mode -1) ; Hide scrollbars
 (menu-bar-mode -1) ; No menubar
+(horizontal-scroll-bar-mode -1)
 (show-paren-mode t) ; Highlights matching parens
 (setq initial-scratch-message "") ; No scratch text
 (fset 'yes-or-no-p 'y-or-n-p) ; y/n instead of yes/no
@@ -47,9 +48,27 @@
 (setq scroll-margin 10 ; Scroll like vim
       scroll-step 1
       scroll-conservatively 10000
-      scroll-preserve-screen-position 1)
+      scroll-preserve-screen-position 1
+      org-pretty-entities t ; Make latex symbols auto display
+      org-src-fontify-natively t ; Highlight src code block in org mode
+      org-src-tab-acts-natively t ; Tabs work properly on src blocks
+      save-interprogram-paste-before-kill t ; Move last kill to sys clipboard on exit
+      visible-bell t ; Visually indicate bell
+      load-prefer-newer t ; Load newer source over compiled
+      ediff-window-setup-function 'ediff-setup-windows-plain) ; Cleaner diff
 (setq explicit-shell-file-name
       (if (file-readable-p "/usr/bin/zsh") "/usr/bin/zsh" "/bin/bash"))
+
+(recentf-mode 1)
+(setq recentf-max-menu-items 25)
+(global-set-key "\C-c\ r" 'counsel-recentf)
+
+(require 'uniquify) ; Better unique buffer names
+(setq uniquify-buffer-name-style 'forward)
+
+(require 'saveplace) ; Remember file placement
+(setq-default save-place t)
+(setq save-place-file (concat user-emacs-directory "places"))
 
 ;;
 ;; E V I L
@@ -74,13 +93,19 @@
 
 (use-package cherry-blossom-theme)
 
-;; Saner defaults for emacs
-(use-package better-defaults)
-
-;; Better M-x
-(use-package smex
-  :demand
-  :bind ("M-x" . smex))
+;; Better completion at point
+(use-package ivy
+  :bind ("C-x k" . kill-buffer)
+  (:map ivy-minibuffer-map
+        ("RET" . ivy-alt-done)
+        ("<tab>" . ivy-next-line)
+        ("<backtab>" . ivy-previous-line))
+  :init
+  (use-package smex)
+  (use-package counsel)
+  :config
+  (ivy-mode 1)
+  (counsel-mode 1))
 
 ;; Use newest org with additional packages
 (use-package org
@@ -121,6 +146,10 @@
   (pdf-tools-install)
 
   (add-hook 'pdf-view-mode-hook '(lambda () (auto-revert-mode t))))
+
+(use-package dashboard
+  :config
+  (dashboard-setup-startup-hook))
 
 ;;
 ;; C O M P A N Y
