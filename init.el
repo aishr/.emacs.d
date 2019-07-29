@@ -1,10 +1,11 @@
-;
-;                 _     _       _         _  _            _ 
-;;     /\         | |   ( )     (_)       (_)| |          | |
-;;    /  \    ___ | |__ |/ ___   _  _ __   _ | |_     ___ | |
-;;   / /\ \  / __|| '_ \  / __| | || '_ \ | || __|   / _ \| |
-;;  / ____ \ \__ \| | | | \__ \ | || | | || || |_  _|  __/| |
-;; /_/    \_\|___/|_| |_| |___/ |_||_| |_||_| \__|(_)\___||_|
+;;           _     _                                   _       _____       _ _         _ 
+;;     /\   (_)   | |                                 ( )     |_   _|     (_) |       | |
+;;    /  \   _ ___| |____      ____ _ _ __ _   _  __ _|/ ___    | |  _ __  _| |_   ___| |
+;;   / /\ \ | / __| '_ \ \ /\ / / _` | '__| | | |/ _` | / __|   | | | '_ \| | __| / _ \ |
+;;  / ____ \| \__ \ | | \ V  V / (_| | |  | |_| | (_| | \__ \  _| |_| | | | | |_ |  __/ |
+;; /_/    \_\_|___/_| |_|\_/\_/ \__,_|_|   \__, |\__,_| |___/ |_____|_| |_|_|\__(_)___|_|
+;;                                          __/ |                                        
+;;                                         |___/                                         
 
 ;; Quicker startup by setting garbage collect high
 (setq gc-cons-threshold most-positive-fixnum)
@@ -84,7 +85,16 @@
   (setq evil-split-window-below t)
   (setq evil-vsplit-window-right t)
   (setq-default evil-symbol-word-search t)
-  (define-key evil-ex-map "e " 'ido-find-file) ; Trigger file completion :e
+  (define-key evil-ex-map "e " 'counsel-find-file) ; Trigger file completion :e
+  (define-key evil-ex-map "vsp "
+    '(lambda (file)
+       (interactive (list (read-file-name "")))
+       (evil-window-vsplit nil file)))
+
+  (define-key evil-ex-map "sp "
+    '(lambda (file)
+       (interactive (list (read-file-name "")))
+       (evil-window-split nil file)))
   )
 
 ;;
@@ -119,6 +129,17 @@
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
+;; Use minted for latex syntax highlighting
+(use-package htmlize)
+(require 'ox-latex)
+(add-to-list 'org-latex-packages-alist '("" "minted")) 
+(setq org-export-allow-bind-keywords 
+      t org-latex-listings 'minted) 
+(setq org-latex-pdf-process 
+      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f" 
+        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f" 
+        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
 ;; Displays helpful popups for key bindings
 (use-package which-key
   :config
@@ -150,6 +171,10 @@
 (use-package dashboard
   :config
   (dashboard-setup-startup-hook))
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((dot . t)))
 
 ;;
 ;; C O M P A N Y
@@ -189,6 +214,7 @@
 (use-package company-jedi
   :config
   (defun my/python-mode-hook ()
+    (setq-local python-shell-interpreter "python2")
     (add-to-list 'company-backends 'company-jedi))
   (add-hook 'python-mode-hook 'my/python-mode-hook))
 
@@ -215,12 +241,3 @@
 
 (use-package ox-twbs)
 
-(define-key evil-ex-map "vsp "
-  '(lambda (file)
-     (interactive (list (ido-read-file-name "")))
-     (evil-window-vsplit nil file)))
-
-(define-key evil-ex-map "sp "
-  '(lambda (file)
-     (interactive (list (ido-read-file-name "")))
-     (evil-window-split nil file)))
