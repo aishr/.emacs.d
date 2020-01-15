@@ -240,4 +240,6 @@
 (setq auto-save-file-name-transforms '((".*" "~/.bak.emacs/auto/" t)))
 
 (use-package ox-twbs)
+(use-package gnuplot)
+(use-package gnuplot-mode)
 
