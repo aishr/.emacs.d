@@ -172,10 +172,10 @@
   :config
   (dashboard-setup-startup-hook))
 
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((dot . t)))
-
+(org-babel-do-load-languages 'org-babel-load-languages
+                             (append org-babel-load-languages
+                              '((python     . t)
+                                (dot       . t))))
 ;;
 ;; C O M P A N Y
 ;;
