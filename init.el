@@ -7,7 +7,7 @@
 ;;                                          __/ |                                        
 ;;                                         |___/                                         
 
-;; Quicker startup by setting garbage collect high
+;;  Quicker startup by setting garbage collect high
 (setq gc-cons-threshold most-positive-fixnum)
 (add-hook 'after-init-hook (lambda () (setq gc-cons-threshold 800000)))
 

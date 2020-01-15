@@ -1,9 +1,5 @@
-auto-save-list/
-backups/
-custom.el
-elpa/
-ido.last
-network-security.data
-places
-server/
-smex-items
+# Ignore everything
+*
+
+# except these files
+!init.el
