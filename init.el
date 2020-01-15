@@ -214,7 +214,7 @@
 (use-package company-jedi
   :config
   (defun my/python-mode-hook ()
-    (setq-local python-shell-interpreter "python2")
+    (setq-local python-shell-interpreter "python3")
     (add-to-list 'company-backends 'company-jedi))
   (add-hook 'python-mode-hook 'my/python-mode-hook))
 
