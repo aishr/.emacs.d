@@ -101,8 +101,9 @@
 ;; P A C K A G E S
 ;;
 
-(use-package cherry-blossom-theme)
-(load-theme 'cherry-blossom t)
+(use-package cherry-blossom-theme
+  :config
+  (load-theme 'cherry-blossom t))
 
 ;; Better completion at point
 (use-package ivy
@@ -163,7 +164,6 @@
    (use-package htmlize))
 
 (use-package pdf-tools
-  :ensure t
   :config
   (pdf-tools-install)
 
